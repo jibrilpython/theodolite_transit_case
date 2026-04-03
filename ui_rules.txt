@@ -1,0 +1,43 @@
+1. DESIGN PHILOSOPHY
+Visual: "Brass, Glass & Filed Steel" — the UI draws from the instrument itself: polished optical brass, ground glass circles, engineer's logbook paper, 
+and the matte black crinkle enamel of a mid-century theodolite body. Hierarchy is expressed through precision and restraint, not decoration. 
+Every element feels like it was machined to tolerance, not printed.
+
+Mood: measured, authoritative, archival, tactile, expedition-worn.
+
+Important: No gamification, no "discover" feeds, no social mechanics. This is a survey ledger, not a marketplace. 
+The interface should feel like opening a Kern & Co transit case — purposeful, quiet, and immediately trustworthy.
+
+2. COLORS
+#F4F1EB — Main background (aged survey paper, warm off-white)
+#1C1A14 — Primary text & high-contrast elements (carbon ink, near-black)
+#FDFBF6 — Secondary panels / input fields (clean white-cream)
+#7A7264 — Secondary text (worn label ink, warm grey)
+#B07D3A — Primary accent (polished brass)
+#E4DFD5 — Outline / stroke (ivory rule line)
+#8C3B2A — Critical errors only (signal red lacquer, surveyor's warning)
+Important: No gradients, no glass morphism, no drop shadows with color. Keep the palette dry and archival — like instruments photographed for a scientific catalogue. Use the brass accent sparingly: one key action per view, nothing more.
+
+3. TYPOGRAPHY
+Display / Headings: Cormorant Garamond (or Freight Display) — elegant, long-descended serif with the weight of a 19th-century engineering manual. Use sparingly at large sizes.
+Body / Labels: Libre Baskerville — sturdy, readable, classically proportioned. Never condensed, never light.
+Monospace / Identifiers: IBM Plex Mono — for geodetic codes like TTC-WILD-T2-1954-SWISS-892, optical specs, arc-second readings, and any numerical field. Makes technical data feel like instrument readouts.
+Important: No sans-serif headlines. No rounded typefaces. The typography should read like a geodetic survey report, not a consumer app.
+
+4. SURFACE & TEXTURE LANGUAGE
+
+Paper surfaces: subtle grain texture on background panels — not decorative, just present enough to break flatness
+Dividers: single-pixel rule lines at #E4DFD5, never card shadows
+Input fields: bordered with a quiet stroke, slightly cream, like a form printed on bond paper
+Instrument photography / imagery: always presented in a clean, centered, well-lit format — catalogue style, not lifestyle
+Icons: line-drawn, precise weight — closer to technical illustration than UI iconography
+
+
+5. INTERACTION PRINCIPLES
+
+Transitions: slow and deliberate — 250–350ms ease-out. Nothing bounces. Nothing "pops."
+Empty states: rendered as blank logbook pages with a single line of quiet instructional text. No illustrations, no cartoon animals.
+Loading: a simple horizontal progress rule in brass, no spinners
+Navigation: tab-based or left-rail ledger tabs — like sections in a field book. No bottom navigation bars.
+
+Important: Every interaction should feel like turning a page or opening a case lid — unhurried and deliberate.

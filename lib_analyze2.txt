@@ -1,0 +1,7 @@
+﻿Analyzing lib...
+
+warning - screens\info_screen.dart:5:8 - Unused import: 'package:theodolite_transit_case/enum/my_enums.dart'. Try removing the import directive. - unused_import
+warning - screens\stats_screen.dart:1:8 - Unused import: 'dart:math'. Try removing the import directive. - unused_import
+   info - screens\add_screen.dart:3:8 - The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive. - unnecessary_import
+
+3 issues found.

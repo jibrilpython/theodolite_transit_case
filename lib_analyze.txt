@@ -1,0 +1,12 @@
+﻿Analyzing lib...
+
+  error - providers\image_provider.dart:51:23 - The function 'ChangeNotifierProvider' isn't defined. Try importing the library that defines 'ChangeNotifierProvider', correcting the name to the name of an existing function, or defining a function named 'ChangeNotifierProvider'. - undefined_function
+  error - providers\input_provider.dart:92:23 - The function 'ChangeNotifierProvider' isn't defined. Try importing the library that defines 'ChangeNotifierProvider', correcting the name to the name of an existing function, or defining a function named 'ChangeNotifierProvider'. - undefined_function
+  error - providers\project_provider.dart:154:25 - The function 'ChangeNotifierProvider' isn't defined. Try importing the library that defines 'ChangeNotifierProvider', correcting the name to the name of an existing function, or defining a function named 'ChangeNotifierProvider'. - undefined_function
+  error - providers\search_provider.dart:38:24 - The function 'ChangeNotifierProvider' isn't defined. Try importing the library that defines 'ChangeNotifierProvider', correcting the name to the name of an existing function, or defining a function named 'ChangeNotifierProvider'. - undefined_function
+  error - providers\user_provider.dart:33:5 - The function 'ChangeNotifierProvider' isn't defined. Try importing the library that defines 'ChangeNotifierProvider', correcting the name to the name of an existing function, or defining a function named 'ChangeNotifierProvider'. - undefined_function
+warning - screens\info_screen.dart:5:8 - Unused import: 'package:theodolite_transit_case/enum/my_enums.dart'. Try removing the import directive. - unused_import
+warning - screens\stats_screen.dart:1:8 - Unused import: 'dart:math'. Try removing the import directive. - unused_import
+   info - screens\add_screen.dart:3:8 - The import of 'package:flutter/services.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart'. Try removing the import directive. - unnecessary_import
+
+8 issues found.
