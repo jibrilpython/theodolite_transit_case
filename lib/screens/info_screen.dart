@@ -244,20 +244,28 @@ class InfoScreen extends ConsumerWidget {
 
   Widget _buildSpecGrid(SurveyingInstrumentModel entry) {
     final specs = <String, String>{};
-    if (entry.opticalSystem.isNotEmpty)
+    if (entry.opticalSystem.isNotEmpty) {
       specs['Optical system'] = entry.opticalSystem;
-    if (entry.circleGraduation.isNotEmpty)
+    }
+    if (entry.circleGraduation.isNotEmpty) {
       specs['Circle graduation'] = entry.circleGraduation;
-    if (entry.leastCount.isNotEmpty)
+    }
+    if (entry.leastCount.isNotEmpty) {
       specs['Accuracy (least count)'] = entry.leastCount;
-    if (entry.levelingSystem.isNotEmpty)
+    }
+    if (entry.levelingSystem.isNotEmpty) {
       specs['Leveling system'] = entry.levelingSystem;
-    if (entry.materialsAndFinish.isNotEmpty)
+    }
+    if (entry.materialsAndFinish.isNotEmpty) {
       specs['Materials & finish'] = entry.materialsAndFinish;
-    if (entry.dimensionsAndWeight.isNotEmpty)
+    }
+    if (entry.dimensionsAndWeight.isNotEmpty) {
       specs['Dimensions & weight'] = entry.dimensionsAndWeight;
+    }
 
-    if (specs.isEmpty) return const SizedBox.shrink();
+    if (specs.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
     return Container(
       decoration: BoxDecoration(
