@@ -44,6 +44,16 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
       );
     }
 
+    final hasGlobalOrigins = displayEntries.any(
+      (e) => e.countryOfManufacture.trim().isNotEmpty,
+    );
+    final hasChronology = allEntries.any((e) {
+      if (e.eraOfProduction.length >= 4) {
+        return int.tryParse(e.eraOfProduction.substring(0, 4)) != null;
+      }
+      return false;
+    });
+
     return Scaffold(
       backgroundColor: kBackground,
       appBar: AppBar(
@@ -65,43 +75,49 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _buildOverviewGrid(displayEntries),
-                    SizedBox(height: 42.h),
+                    _buildArchiveStatusBanner(displayEntries),
+                    SizedBox(height: 16.h),
 
-                    _sectionHeader('Global origins'),
-                    _buildGlobalOrigins(displayEntries),
-                    SizedBox(height: 42.h),
+                    if (hasGlobalOrigins) ...[
+                      _sectionHeader('Global origins'),
+                      _buildGlobalOrigins(displayEntries),
+                      SizedBox(height: 16.h),
+                    ],
 
-                    _sectionHeader(
-                      'Chronology multiplexer',
-                      trailing: _selectedDecade != null
-                          ? Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
-                                vertical: 4.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: kAccent,
-                                borderRadius: BorderRadius.circular(
-                                  kRadiusPill,
+                    if (hasChronology) ...[
+                      _sectionHeader(
+                        'Chronology multiplexer',
+                        trailing: _selectedDecade != null
+                            ? Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 4.h,
                                 ),
-                              ),
-                              child: Text(
-                                'Focus: ${_selectedDecade}s',
-                                style: GoogleFonts.inter(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.bold,
+                                decoration: BoxDecoration(
+                                  color: kAccent,
+                                  borderRadius: BorderRadius.circular(
+                                    kRadiusPill,
+                                  ),
                                 ),
-                              ),
-                            )
-                          : null,
-                    ),
-                    _buildHistogram(allEntries),
-                    SizedBox(height: 42.h),
+                                child: Text(
+                                  'Focus: ${_selectedDecade}s',
+                                  style: GoogleFonts.inter(
+                                    color: Colors.white,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            : null,
+                      ),
+                      _buildHistogram(allEntries),
+                      SizedBox(height: 16.h),
+                    ],
 
-                    _sectionHeader('Condition analysis'),
-                    _buildConditionRadar(displayEntries),
+                    if (displayEntries.isNotEmpty) ...[
+                      _sectionHeader('Condition analysis'),
+                      _buildConditionRadar(displayEntries),
+                    ],
                   ],
                 ),
         ),
@@ -114,7 +130,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 180.h),
+          SizedBox(height: 100.h),
           Container(
             padding: EdgeInsets.all(24.w),
             decoration: BoxDecoration(
@@ -148,7 +164,7 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     );
   }
 
-  Widget _buildOverviewGrid(List<SurveyingInstrumentModel> entries) {
+  Widget _buildArchiveStatusBanner(List<SurveyingInstrumentModel> entries) {
     if (entries.isEmpty) return const SizedBox.shrink();
 
     final topMaker = () {
@@ -158,59 +174,118 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
           counts[e.manufacturer] = (counts[e.manufacturer] ?? 0) + 1;
         }
       }
-      if (counts.isEmpty) return 'Unknown';
+      if (counts.isEmpty) return 'Unknown Manufacturer';
       return counts.entries.reduce((a, b) => a.value > b.value ? a : b).key;
     }();
 
-    return Row(
-      children: [
-        Expanded(
-          child: _metricPill('Total Assets', entries.length.toString(), false),
-        ),
-        SizedBox(width: 16.w),
-        Expanded(child: _metricPill('Top Maker', topMaker, true)),
-      ],
-    );
-  }
-
-  Widget _metricPill(String title, String value, bool isAccent) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+      width: double.infinity,
+      padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        color: isAccent ? kAccent : Colors.white,
-        borderRadius: BorderRadius.circular(kRadiusStandard),
-        boxShadow: isAccent
-            ? [
-                BoxShadow(
-                  color: kAccent.withAlpha(80),
-                  blurRadius: 40,
-                  offset: const Offset(0, 10),
-                ),
-              ]
-            : const [kShadowSubtle],
+        color: kAccent,
+        borderRadius: BorderRadius.circular(kRadiusLarge),
+        boxShadow: [
+          BoxShadow(
+            color: kAccent.withAlpha(80),
+            blurRadius: 30,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              color: isAccent ? Colors.white.withAlpha(200) : kSecondaryText,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w600,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                Icons.inventory_2_rounded,
+                color: Colors.white.withAlpha(150),
+                size: 32.sp,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: Colors.black.withAlpha(40),
+                  borderRadius: BorderRadius.circular(kRadiusPill),
+                ),
+                child: Text(
+                  'Archive Status',
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 12.h),
-          Text(
-            value,
-            style: GoogleFonts.outfit(
-              color: isAccent ? Colors.white : kPrimaryText,
-              fontSize: 28.sp,
-              fontWeight: FontWeight.w800,
-              height: 1.0,
+          SizedBox(height: 24.h),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '${entries.length}',
+                style: GoogleFonts.outfit(
+                  color: Colors.white,
+                  fontSize: 56.sp,
+                  fontWeight: FontWeight.w800,
+                  height: 1.0,
+                ),
+              ),
+              SizedBox(width: 8.w),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.h),
+                child: Text(
+                  entries.length == 1 ? 'Instrument' : 'Instruments',
+                  style: GoogleFonts.inter(
+                    color: Colors.white.withAlpha(200),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 24.h),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(20),
+              borderRadius: BorderRadius.circular(kRadiusStandard),
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            child: Row(
+              children: [
+                Icon(Icons.military_tech, color: Colors.white, size: 28.sp),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Dominant Manufacturer',
+                        style: GoogleFonts.inter(
+                          color: Colors.white.withAlpha(150),
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        topMaker,
+                        style: GoogleFonts.inter(
+                          color: Colors.white,
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -253,8 +328,8 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     final maxCount = counts.values.reduce(math.max);
 
     return Container(
-      margin: EdgeInsets.only(top: 24.h),
-      padding: EdgeInsets.fromLTRB(24.w, 32.h, 24.w, 16.h),
+      margin: EdgeInsets.only(top: 12.h),
+      padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 4.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(kRadiusStandard),
@@ -353,9 +428,9 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
     final sortedDecades = decades.keys.toList()..sort();
 
     return Container(
-      height: 220.h,
-      margin: EdgeInsets.only(top: 24.h),
-      padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 16.h),
+      height: 200.h,
+      margin: EdgeInsets.only(top: 12.h),
+      padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(kRadiusStandard),
@@ -431,8 +506,8 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
       counts[e.conditionState] = (counts[e.conditionState] ?? 0) + 1;
 
     return Container(
-      margin: EdgeInsets.only(top: 24.h),
-      padding: EdgeInsets.all(24.w),
+      margin: EdgeInsets.only(top: 12.h),
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(kRadiusStandard),
@@ -479,6 +554,8 @@ class _StatsScreenState extends ConsumerState<StatsScreen> {
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Text(
